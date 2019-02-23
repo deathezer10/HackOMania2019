@@ -461,7 +461,7 @@ namespace Photon.Pun
             }
         }
 
-        private static bool automaticallySyncScene = false;
+        private static bool automaticallySyncScene = true;
 
         /// <summary>
         /// If enabled, the client will get a list of available lobbies from the Master Server.
@@ -2157,6 +2157,7 @@ namespace Photon.Pun
                 return false;
             }
 
+            Debug.Log("Event Raised");
             return NetworkingClient.OpRaiseEvent(eventCode, eventContent, raiseEventOptions, sendOptions);
         }
 
