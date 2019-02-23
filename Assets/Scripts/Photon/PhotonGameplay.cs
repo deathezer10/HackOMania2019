@@ -10,6 +10,7 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
 {
     public enum PlayerRole { None, Support, Diffuser }
     public int playerReadyCount = 0;
+    private int m_AudioCount = 0;
     public Text readyText;
 
     public PlayerRole player_Role = PlayerRole.None;
@@ -18,6 +19,7 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     public GameObject startPage;
     public GameObject supportPage;
     public GameObject diffuserPage;
+    public GameObject btnLoading;
     public GameObject walkieTalkieContent;
     public GameObject audioPanelPrefab;
 
@@ -138,22 +140,22 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                 break;
 
             case EventCodes.AudioDiffuseToSupport:
-                {
-                    byte[] audioArray = (byte[])photonEvent.CustomData;
-                    AudioClip clip = WavUtility.ToAudioClip(audioArray);
-                    AudioManager.Instance.Play2D(clip, AudioManager.AudioType.Additive);
-                    GameObject audioPanel = Instantiate(audioPanelPrefab, walkieTalkieContent.transform);
-                }
-                break;
-
             case EventCodes.AudioSupportToDiffuse:
                 {
                     byte[] audioArray = (byte[])photonEvent.CustomData;
                     AudioClip clip = WavUtility.ToAudioClip(audioArray);
-                    AudioManager.Instance.Play2D(clip, AudioManager.AudioType.Additive);
                     GameObject audioPanel = Instantiate(audioPanelPrefab, walkieTalkieContent.transform);
+                    audioPanel.GetComponentInChildren<AudioPanelPlayButton>().AssignClip(clip);
+                    audioPanel.GetComponentInChildren<Text>().text = "AUDIO " + ++m_AudioCount;
+                    PhotonNetwork.RaiseEvent((byte)EventCodes.AudioDataSent, null, RaiseEventOptions.Default, SendOptions.SendReliable);
                 }
                 break;
+
+            case EventCodes.AudioDataSent:
+                btnLoading.SetActive(false);
+                btnLoading.transform.parent.GetComponent<MicrophoneButton>().ResetSprite();
+                break;
+
         }
 
     }

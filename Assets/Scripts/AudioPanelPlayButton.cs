@@ -28,20 +28,28 @@ public class AudioPanelPlayButton : MonoBehaviour
     {
         m_CurrentImage.sprite = m_StopSprite;
 
-        AudioManager.Instance.Play2D(m_AssignedClip, AudioManager.AudioType.Additive, null, 0, null, () =>
-         {
-         });
+        m_CurrentPlayingClip = AudioManager.Instance.Play2D(m_AssignedClip, AudioManager.AudioType.Additive, new AudioSourceData2D() { pitchOverride = 1 },
+            0, null, () =>
+          {
+              StopAudio();
+          }).GetComponent<AudioSource>();
     }
 
     public void StopAudio()
     {
         m_CurrentImage.sprite = m_PlaySprite;
 
+        if (m_CurrentPlayingClip != null)
+        {
+            m_CurrentPlayingClip.Stop();
+            Destroy(m_CurrentPlayingClip.gameObject);
+            m_CurrentPlayingClip = null;
+        }
     }
 
     public void ToggleAudio()
     {
-        if (m_CurrentPlayingClip == null || m_CurrentPlayingClip.isPlaying)
+        if (m_CurrentPlayingClip == null || !m_CurrentPlayingClip.isPlaying)
         {
             PlayAudio();
         }

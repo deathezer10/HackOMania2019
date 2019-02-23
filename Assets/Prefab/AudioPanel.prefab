@@ -296,3 +296,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c44e452ecc10754c887e42afeb9ad09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PlaySprite: {fileID: 21300000, guid: be3a1d39e8efdac4aae87887c3d026e9, type: 3}
+  m_StopSprite: {fileID: 21300002, guid: be3a1d39e8efdac4aae87887c3d026e9, type: 3}

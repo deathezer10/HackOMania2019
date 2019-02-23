@@ -8,5 +8,6 @@ enum EventCodes
     PlayerReady = 1,
     StartGame = 2,
     AudioSupportToDiffuse,
-    AudioDiffuseToSupport
+    AudioDiffuseToSupport,
+    AudioDataSent
 };

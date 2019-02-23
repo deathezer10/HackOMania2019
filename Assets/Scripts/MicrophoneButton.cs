@@ -9,7 +9,7 @@ using ExitGames.Client.Photon;
 public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField]
-    private Sprite m_OnPressedSprite;
+    private Sprite m_DefaultSprite, m_OnPressedSprite;
 
     private AudioClip m_RecordedAudio;
 
@@ -18,7 +18,7 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerDown(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = m_OnPressedSprite;
-        m_RecordedAudio = Microphone.Start("", false, 60, m_MaxMicrophoneFrequency);
+        m_RecordedAudio = Microphone.Start("", false, 10, m_MaxMicrophoneFrequency);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -41,12 +41,19 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         var role = FindObjectOfType<PhotonGameplay>().player_Role;
 
         PhotonNetwork.RaiseEvent(((role == PhotonGameplay.PlayerRole.Support) ? (byte)EventCodes.AudioSupportToDiffuse : (byte)EventCodes.AudioDiffuseToSupport),
-        bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendReliable);
+        bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendUnreliable);
     }
 
     void Start()
     {
+        m_DefaultSprite = GetComponent<Image>().sprite;
         Microphone.GetDeviceCaps("", out var minFreq, out m_MaxMicrophoneFrequency);
+        m_MaxMicrophoneFrequency /= 2;
+    }
+
+    public void ResetSprite()
+    {
+        GetComponent<Image>().sprite = m_DefaultSprite;
     }
 
 }
