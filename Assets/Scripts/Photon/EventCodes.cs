@@ -5,5 +5,6 @@ using UnityEngine;
 enum EventCodes
 {
     SetRoles = 0,
-    changeRoles
+    PlayerReady = 1,
+    StartGame = 2,
 };
