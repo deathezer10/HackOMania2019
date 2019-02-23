@@ -18,6 +18,8 @@ public class ImageBombModule : MonoBehaviour
     int displayMiddle;
     int displayRight;
     int answer;//decides image number
+
+    public Sprite correct;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,21 +61,21 @@ public class ImageBombModule : MonoBehaviour
     public void ClickLeftButton()
     {
         if (displayLeft == answer)
-            Debug.Log("true");
+            this.GetComponent<Image>().sprite = correct;
         else
             Debug.Log("false");
     }
     public void ClickMiddleButton()
     {
         if (displayMiddle == answer)
-            Debug.Log("true");
+            this.GetComponent<Image>().sprite = correct;
         else
             Debug.Log("false");
     }
     public void ClickRightButton()
     {
         if (displayRight == answer)
-            Debug.Log("true");
+            this.GetComponent<Image>().sprite = correct;
         else
             Debug.Log("false");
     }
