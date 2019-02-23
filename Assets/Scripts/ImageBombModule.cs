@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class ImageBombModule : MonoBehaviour
     int displayLeft;
     int displayMiddle;
     int displayRight;
-    int answer;
+    int answer;//decides image number
     // Start is called before the first frame update
     void Start()
     {
@@ -30,11 +31,8 @@ public class ImageBombModule : MonoBehaviour
         RightTextList.Add("Liao");
         RightTextList.Add("Rabak");
 
-        displayLeft = displayMiddle = displayRight = answer = Random.Range(0, 2);
-        while (displayMiddle == displayLeft)
-            displayMiddle = Random.Range(0, 2);
-        while (displayRight == displayLeft || displayRight == displayMiddle)
-            displayRight = Random.Range(0, 2);
+        InitDisplays();
+
         leftButton.transform.GetChild(0).GetComponent<Text>().text = LeftTextList[displayLeft];
         middleButton.transform.GetChild(0).GetComponent<Text>().text = MiddleTextList[displayMiddle];
         rightButton.transform.GetChild(0).GetComponent<Text>().text = RightTextList[displayRight];
@@ -44,6 +42,18 @@ public class ImageBombModule : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void InitDisplays()
+    {
+        List<int> Numbers = new List<int>() { 0, 1, 2 };
+        displayLeft = Random.Range(0, Numbers.Count);
+        answer = Random.Range(0, Numbers.Count);
+        Numbers.Remove(displayLeft);
+        int rand = Random.Range(0, Numbers.Count);
+        displayMiddle = Numbers[rand];
+        Numbers.Remove(displayMiddle);
+        displayRight = Numbers[0];
     }
 
     public void ClickLeftButton()
