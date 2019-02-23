@@ -8,7 +8,9 @@ using ExitGames.Client.Photon;
 
 public class PhotonGameplay : MonoBehaviour, IOnEventCallback
 {
-    int player_Role = -1;
+    public enum PlayerRole { None, Support, Diffuser }
+
+    private PlayerRole player_Role = PlayerRole.None;
     public Text roleText;
     public GameObject loadingPage;
     public GameObject startPage;
@@ -16,7 +18,7 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     public GameObject diffuserPage;
 
     public bool skipInitialConnection = false;
-    public int skipRole = 0;
+    public PlayerRole skipRoleToUse = PlayerRole.Support;
 
     public void OnEnable()
     {
@@ -31,23 +33,43 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsConnected)
+            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+
+        if (PhotonNetwork.IsMasterClient && !skipInitialConnection)
         {
             ShuffleRole();
         }
+
+        if (skipInitialConnection)
+        {
+            startPage.SetActive(true);
+            loadingPage.SetActive(false);
+            player_Role = skipRoleToUse;
+            if (player_Role == PlayerRole.Support)
+            {
+                roleText.text = "SUPPORT";
+                supportPage.SetActive(true);
+            }
+            else
+            {
+                roleText.text = "DIFFUSER";
+                diffuserPage.SetActive(true);
+            }
+        }
+
     }
-    
+
     void ShuffleRole()
     {
-        player_Role = Random.Range(0, 2);
+        player_Role = (PlayerRole)Random.Range(0, 2);
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, SendOptions.SendReliable);
 
         startPage.SetActive(true);
         loadingPage.SetActive(false);
 
-        if (player_Role == 1)
+        if (player_Role == PlayerRole.Support)
         {
             roleText.text = "SUPPORT";
             supportPage.SetActive(true);
@@ -70,15 +92,15 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                 loadingPage.SetActive(false);
                 startPage.SetActive(true);
 
-                if ((int)photonEvent.CustomData == 0)
+                if ((PlayerRole)photonEvent.CustomData == PlayerRole.Diffuser)
                 {
-                    player_Role = 1;
+                    player_Role = PlayerRole.Support;
                     roleText.text = "SUPPORT";
                     supportPage.SetActive(true);
                 }
                 else
                 {
-                    player_Role = 0;
+                    player_Role = PlayerRole.Diffuser;
                     roleText.text = "DIFFUSER";
                     diffuserPage.SetActive(true);
                 }

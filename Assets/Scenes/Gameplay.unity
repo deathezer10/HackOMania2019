@@ -1524,8 +1524,8 @@ MonoBehaviour:
   startPage: {fileID: 1815931444}
   supportPage: {fileID: 246864216}
   diffuserPage: {fileID: 697106239}
-  skipInitialConnection: 0
-  skipRole: 0
+  skipInitialConnection: 1
+  skipRoleToUse: 2
 --- !u!4 &1702083410
 Transform:
   m_ObjectHideFlags: 0
@@ -2062,7 +2062,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1060592249}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999976
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
