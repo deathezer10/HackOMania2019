@@ -74,7 +74,6 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         public float delayInSeconds;
         public Action onComplete;
         public Action onStart;
-        public string clipAlias;
     }
 
     Queue<AudioQueueInfo> m_AudioQueue = new Queue<AudioQueueInfo>();
@@ -107,13 +106,13 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     /// </summary>
     public GameObject Play2D(string clipAlias, AudioType audioType, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
     {
-        return Play2D(clipAlias, audioType, null, delayInSeconds, onComplete, onStart);
+        return Play2D(GetAudioClip(clipAlias), audioType, null, delayInSeconds, onComplete, onStart);
     }
 
     /// <summary>
     /// Plays a 2D audio clip with the given alias
     /// </summary>
-    public GameObject Play2D(string clipAlias, AudioType audioType, AudioSourceData2D audioSourceData, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
+    public GameObject Play2D(AudioClip clip, AudioType audioType, AudioSourceData2D audioSourceData = null, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
     {
         AudioSourceData3D audioSourceData3D = new AudioSourceData3D();
 
@@ -131,7 +130,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         audioSourceData3D.relativeVelocity = Vector3.zero;
         audioSourceData3D.spatialBlend = 0;
 
-        return Play3D(clipAlias, Camera.main.transform.position, audioType, audioSourceData3D, delayInSeconds, onStart, onComplete);
+        return Play3D(clip, Camera.main.transform.position, audioType, audioSourceData3D, delayInSeconds, onStart, onComplete);
     }
 
     /// <summary>
@@ -141,7 +140,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     /// <returns>Reference to the AudioSource that was spawned</returns>
     public GameObject Play3D(string clipAlias, Vector3 position, AudioType audioType, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
     {
-        return Play3D(clipAlias, position, audioType, null, delayInSeconds, onStart, onComplete);
+        return Play3D(GetAudioClip(clipAlias), position, audioType, null, delayInSeconds, onStart, onComplete);
     }
 
 
@@ -150,20 +149,15 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     /// An GameObject with an AudioSource is spawned at the given position and is removed once the audio finishes
     /// </summary>
     /// <returns>Reference to the AudioSource that was spawned</returns>   
-    public GameObject Play3D(string clipAlias, Vector3 position, AudioType audioType, AudioSourceData3D audioSourceData, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
+    public GameObject Play3D(AudioClip clip, Vector3 position, AudioType audioType, AudioSourceData3D audioSourceData, float delayInSeconds = 0, Action onStart = null, Action onComplete = null)
     {
-        AudioClip clip = GetAudioClip(clipAlias);
-
         if (clip == null)
-        {
-            Debug.LogError("Error trying to retrieve an Audio's clipAlias: '" + clipAlias + "'");
             return null;
-        }
 
         if (audioSourceData == null)
             audioSourceData = new AudioSourceData3D();
 
-        GameObject obj = new GameObject((audioSourceData.spatialBlend == 0) ? "[2D_AudioSource] - " + clipAlias : "[3D_AudioSource] - " + clipAlias);
+        GameObject obj = new GameObject((audioSourceData.spatialBlend == 0) ? "[2D_AudioSource] - " + clip.name : "[3D_AudioSource] - " + clip.name);
         obj.transform.parent = ((audioSourceData.parent != null) ? audioSourceData.parent : transform);
         obj.transform.position = position;
 
@@ -171,7 +165,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         const float maxMagnitude = 5;
 
         AudioSource spawnedAudioSource = obj.AddComponent<AudioSource>();
-        spawnedAudioSource.clip = GetAudioClip(clipAlias);
+        spawnedAudioSource.clip = clip;
         spawnedAudioSource.volume = audioSourceData.volume + (Mathf.Clamp(audioSourceData.relativeVelocity.magnitude, minMagnitude, maxMagnitude) / maxMagnitude); // Higher velocity = louder;
         spawnedAudioSource.spatialBlend = audioSourceData.spatialBlend;
         spawnedAudioSource.minDistance = audioSourceData.minDistance;
@@ -193,7 +187,6 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
                     is3D = (audioSourceData.spatialBlend == 0) ? false : true,
                     audioSource = spawnedAudioSource,
                     audioClip = clip,
-                    clipAlias = clipAlias,
                     delayInSeconds = delayInSeconds,
                     onComplete = onComplete,
                     onStart = onStart
@@ -264,6 +257,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     {
         AudioClip clip;
         m_AudioClipsDictonary.TryGetValue(clipAlias, out clip);
+        if (clip == null)
+            Debug.LogError("Error trying to retrieve an Audio's clipAlias: '" + clipAlias + "'");
         return clip;
     }
 

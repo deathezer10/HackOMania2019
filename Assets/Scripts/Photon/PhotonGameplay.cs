@@ -7,9 +7,16 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 
 public class PhotonGameplay : MonoBehaviour, IOnEventCallback
-{ 
-    int player_Role;
-    public Text whoAmI;
+{
+    int player_Role = -1;
+    public Text roleText;
+    public GameObject loadingPage;
+    public GameObject startPage;
+    public GameObject supportPage;
+    public GameObject diffuserPage;
+
+    public bool skipInitialConnection = false;
+    public int skipRole = 0;
 
     public void OnEnable()
     {
@@ -29,30 +36,27 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
         {
             ShuffleRole();
         }
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     void ShuffleRole()
     {
         player_Role = Random.Range(0, 2);
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
-        PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-        if (player_Role == 0)
+        PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, SendOptions.SendReliable);
+
+        startPage.SetActive(true);
+        loadingPage.SetActive(false);
+
+        if (player_Role == 1)
         {
-            //the master is the diffuser role
-            whoAmI.text = "You are the diffuser";
+            roleText.text = "SUPPORT";
+            supportPage.SetActive(true);
         }
         else
         {
-            whoAmI.text = "You are the support role";
+            roleText.text = "DIFFUSER";
+            diffuserPage.SetActive(true);
         }
-
     }
     public void OnEvent(EventData photonEvent)
     {
@@ -62,18 +66,25 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
         switch (caseSwitch)
         {
             case (byte)EventCodes.SetRoles:
+
+                loadingPage.SetActive(false);
+                startPage.SetActive(true);
+
                 if ((int)photonEvent.CustomData == 0)
                 {
                     player_Role = 1;
-                    whoAmI.text = "You are the support role";
+                    roleText.text = "SUPPORT";
+                    supportPage.SetActive(true);
                 }
                 else
                 {
                     player_Role = 0;
-                    whoAmI.text = "You are the diffuser";
+                    roleText.text = "DIFFUSER";
+                    diffuserPage.SetActive(true);
                 }
                 break;
         }
 
     }
+
 }

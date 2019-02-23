@@ -1,23 +1,30 @@
 ﻿using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
 {
     public GameObject MatchMakingPanel;
     public GameObject WaitingPanel;
+    public GameObject StartButton;
+    public Text StatusText;
+
     public void connectToPhoton()
     {
         Photon.Pun.PhotonNetwork.ConnectUsingSettings();
         Debug.Log("Connecting to photon");
-
-        MatchMakingPanel.SetActive(true);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-
+        StatusText.text = "Connection Failed: " + cause.ToString();
         MatchMakingPanel.SetActive(false);
+    }
+
+    private void Start()
+    {
+        connectToPhoton();
     }
 
     //public override void OnConnected()
@@ -26,11 +33,19 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
     //    Debug.Log("Connected!");
     //}
 
+    public void JoinRandomRoom()
+    {
+        Photon.Pun.PhotonNetwork.JoinRandomRoom();
+
+        MatchMakingPanel.SetActive(true);
+    }
+
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+        StatusText.gameObject.SetActive(false);
+        StartButton.SetActive(true);
         Debug.Log("OnConnectedToMaster() was called by PUN.");
-        Photon.Pun.PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -43,6 +58,7 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
 
         Photon.Pun.PhotonNetwork.CreateRoom(null, roomOptions, null, null);
     }
+
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
