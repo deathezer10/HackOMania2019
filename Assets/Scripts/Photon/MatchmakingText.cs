@@ -16,33 +16,14 @@ public class MatchmakingText : MonoBehaviour
 
     private IEnumerator loadingText(float waitTime)
     {
-
+        matchmakingtext.text += ".";
         yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text = "Matchmaking in progress.";
-        StartCoroutine(loadingText2(swapTime));
-    }
-
-    private IEnumerator loadingText2(float waitTime)
-    {
-
+        matchmakingtext.text += ".";
         yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text = "Matchmaking in progress..";
-        StartCoroutine(loadingText3(swapTime));
-    }
-
-    private IEnumerator loadingText3(float waitTime)
-    {
-
+        matchmakingtext.text += ".";
         yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text = "Matchmaking in progress...";
-        StartCoroutine(loadingText4(swapTime));
-    }
-
-    private IEnumerator loadingText4(float waitTime)
-    {
-
+        matchmakingtext.text = matchmakingtext.text.Remove(matchmakingtext.text.Length - 3);
         yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text = "Matchmaking in progress";
         StartCoroutine(loadingText(swapTime));
     }
 }
