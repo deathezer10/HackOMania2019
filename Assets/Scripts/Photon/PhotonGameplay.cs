@@ -9,6 +9,8 @@ using ExitGames.Client.Photon;
 public class PhotonGameplay : MonoBehaviour, IOnEventCallback
 {
     public enum PlayerRole { None, Support, Diffuser }
+    public int playerReadyCount = 0;
+    public Text readyText;
 
     private PlayerRole player_Role = PlayerRole.None;
     public Text roleText;
@@ -16,6 +18,8 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     public GameObject startPage;
     public GameObject supportPage;
     public GameObject diffuserPage;
+
+
 
     public bool skipInitialConnection = false;
     public PlayerRole skipRoleToUse = PlayerRole.Support;
@@ -58,6 +62,18 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
             }
         }
 
+    }
+
+    public void ReadyToPlay()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((byte)EventCodes.PlayerReady, null, raiseEventOptions, SendOptions.SendReliable);
+
+    }
+
+    public void ChangeReadyText()
+    {
+        readyText.text = "Waiting for other players...";
     }
 
     void ShuffleRole()
@@ -104,6 +120,19 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                     roleText.text = "DIFFUSER";
                     diffuserPage.SetActive(true);
                 }
+                break;
+            case (byte)EventCodes.PlayerReady:
+                playerReadyCount++;
+                if (PhotonNetwork.IsMasterClient && playerReadyCount == 2)
+                {
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                    PhotonNetwork.RaiseEvent((byte)EventCodes.StartGame, null, raiseEventOptions, SendOptions.SendReliable);
+                }
+                break;
+            case (byte)EventCodes.StartGame:
+                //Start Game
+                Debug.Log("Game Has Started");
+                startPage.SetActive(false);
                 break;
         }
 
