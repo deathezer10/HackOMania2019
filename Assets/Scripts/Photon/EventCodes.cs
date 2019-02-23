@@ -7,4 +7,6 @@ enum EventCodes
     SetRoles = 0,
     PlayerReady = 1,
     StartGame = 2,
+    AudioSupportToDiffuse,
+    AudioDiffuseToSupport
 };

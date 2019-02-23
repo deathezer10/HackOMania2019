@@ -12,13 +12,14 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     public int playerReadyCount = 0;
     public Text readyText;
 
-    private PlayerRole player_Role = PlayerRole.None;
+    public PlayerRole player_Role = PlayerRole.None;
     public Text roleText;
     public GameObject loadingPage;
     public GameObject startPage;
     public GameObject supportPage;
     public GameObject diffuserPage;
-
+    public GameObject walkieTalkieContent;
+    public GameObject audioPanelPrefab;
 
 
     public bool skipInitialConnection = false;
@@ -73,7 +74,8 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
 
     public void ChangeReadyText()
     {
-        readyText.text = "Waiting for other players...";
+        if (readyText)
+            readyText.text = "Waiting for other players...";
     }
 
     void ShuffleRole()
@@ -101,9 +103,9 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
         byte caseSwitch = photonEvent.Code;
         Debug.Log((int)caseSwitch);
 
-        switch (caseSwitch)
+        switch ((EventCodes)caseSwitch)
         {
-            case (byte)EventCodes.SetRoles:
+            case EventCodes.SetRoles:
 
                 loadingPage.SetActive(false);
                 startPage.SetActive(true);
@@ -121,7 +123,7 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                     diffuserPage.SetActive(true);
                 }
                 break;
-            case (byte)EventCodes.PlayerReady:
+            case EventCodes.PlayerReady:
                 playerReadyCount++;
                 if (PhotonNetwork.IsMasterClient && playerReadyCount == 2)
                 {
@@ -129,10 +131,28 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                     PhotonNetwork.RaiseEvent((byte)EventCodes.StartGame, null, raiseEventOptions, SendOptions.SendReliable);
                 }
                 break;
-            case (byte)EventCodes.StartGame:
+            case EventCodes.StartGame:
                 //Start Game
                 Debug.Log("Game Has Started");
                 startPage.SetActive(false);
+                break;
+
+            case EventCodes.AudioDiffuseToSupport:
+                {
+                    byte[] audioArray = (byte[])photonEvent.CustomData;
+                    AudioClip clip = WavUtility.ToAudioClip(audioArray);
+                    AudioManager.Instance.Play2D(clip, AudioManager.AudioType.Additive);
+                    GameObject audioPanel = Instantiate(audioPanelPrefab, walkieTalkieContent.transform);
+                }
+                break;
+
+            case EventCodes.AudioSupportToDiffuse:
+                {
+                    byte[] audioArray = (byte[])photonEvent.CustomData;
+                    AudioClip clip = WavUtility.ToAudioClip(audioArray);
+                    AudioManager.Instance.Play2D(clip, AudioManager.AudioType.Additive);
+                    GameObject audioPanel = Instantiate(audioPanelPrefab, walkieTalkieContent.transform);
+                }
                 break;
         }
 

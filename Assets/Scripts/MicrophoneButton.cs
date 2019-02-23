@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using ExitGames.Client.Photon;
 
 public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -37,7 +38,10 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         var bytes = WavUtility.FromAudioClip(clip);
 
-        PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, SendOptions.SendReliable);
+        var role = FindObjectOfType<PhotonGameplay>().player_Role;
+
+        PhotonNetwork.RaiseEvent(((role == PhotonGameplay.PlayerRole.Support) ? (byte)EventCodes.AudioSupportToDiffuse : (byte)EventCodes.AudioDiffuseToSupport),
+        bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendReliable);
     }
 
     void Start()
