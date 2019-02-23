@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using Photon.Pun;
 
 public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -35,7 +35,9 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         clip.SetData(clipSamples, 0);
         // End clip creation
 
-        AudioManager.Instance.Play2D(clip, AudioManager.AudioType.Additive, new AudioSourceData2D() { randomPitchRange = 0 });
+        var bytes = WavUtility.FromAudioClip(clip);
+
+        PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, SendOptions.SendReliable);
     }
 
     void Start()

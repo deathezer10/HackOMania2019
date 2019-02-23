@@ -1524,7 +1524,7 @@ MonoBehaviour:
   startPage: {fileID: 1815931444}
   supportPage: {fileID: 246864216}
   diffuserPage: {fileID: 697106239}
-  skipInitialConnection: 1
+  skipInitialConnection: 0
   skipRoleToUse: 2
 --- !u!4 &1702083410
 Transform:

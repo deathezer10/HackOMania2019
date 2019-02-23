@@ -62,7 +62,7 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
 
     void ShuffleRole()
     {
-        player_Role = (PlayerRole)Random.Range(0, 2);
+        player_Role = (PlayerRole)Random.Range(1, 3);
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         PhotonNetwork.RaiseEvent((byte)EventCodes.SetRoles, player_Role, raiseEventOptions, SendOptions.SendReliable);
 
