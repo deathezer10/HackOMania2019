@@ -35,6 +35,14 @@ public class Numbers : MonoBehaviour
     int middleTextIndex;
     int rightTextIndex;
 
+    int leftAnswer;
+    int middleAnswer;
+    int rightAnswer;
+
+    int playerLeftAnswer;
+    int playerMiddleAnswer;
+    int playerRightAnswer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +53,8 @@ public class Numbers : MonoBehaviour
         leftText.text = leftTextList[leftTextIndex];
         middleText.text = middleTextList[middleTextIndex];
         rightText.text = rightTextList[rightTextIndex];
+
+        CalculateAnswer();
     }
 
     // Update is called once per frame
@@ -57,10 +67,71 @@ public class Numbers : MonoBehaviour
     {
         var newValue = Mathf.Repeat(int.Parse(m_NumberIndexes[numberIndex].text) + 1, 10);
         m_NumberIndexes[numberIndex].text = newValue.ToString();
+
+        if(numberIndex == 0)
+        playerLeftAnswer = (int)newValue;
+
+        else if(numberIndex == 1)
+            playerMiddleAnswer = (int)newValue;
+
+        else if (numberIndex == 2)
+            playerRightAnswer = (int)newValue;
     }
 
     public void CalculateAnswer()
     {
+        if(leftTextIndex == 0)
+        {
+            leftAnswer = 1;
+        }
+        if (leftTextIndex == 1)
+        {
+            leftAnswer = 2;
+        }
+        if (leftTextIndex == 2)
+        {
+            leftAnswer = 3;
+        }
 
+        if (middleTextIndex == 0)
+        {
+            middleAnswer = 1;
+        }
+        if (middleTextIndex == 1)
+        {
+            middleAnswer = 2;
+        }
+        if (middleTextIndex == 2)
+        {
+            middleAnswer = 3;
+        }
+
+        if (rightTextIndex == 0)
+        {
+            rightAnswer = 1;
+        }
+        if (rightTextIndex == 1)
+        {
+            rightAnswer = 2;
+        }
+        if (rightTextIndex == 2)
+        {
+            rightAnswer = 3;
+        }
+    }
+
+    public void ConfirmAnswer()
+    {
+        if (playerLeftAnswer == leftAnswer && playerMiddleAnswer == middleAnswer && playerRightAnswer == rightAnswer)
+        {
+            Debug.Log("Answer is correct");
+        }
+        else
+        {
+            Debug.Log("Answer is wrong");
+            Debug.Log(leftAnswer);
+            Debug.Log(middleAnswer);
+            Debug.Log(rightAnswer);
+        }
     }
 }
