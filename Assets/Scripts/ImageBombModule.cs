@@ -12,7 +12,6 @@ public class ImageBombModule : MonoBehaviour
     List<string> LeftTextList = new List<string>();//Abuden, Alamak, Bo Jio
     List<string> MiddleTextList = new List<string>();//Bodoh, Encik, Chim
     List<string> RightTextList = new List<string>();//Chope, Liao, Rabak
-    List<int> Numbers = new List<int>();
 
     int displayLeft;
     int displayMiddle;
@@ -30,32 +29,42 @@ public class ImageBombModule : MonoBehaviour
         RightTextList.Add("Chope");
         RightTextList.Add("Liao");
         RightTextList.Add("Rabak");
-        Numbers.Add(0);
-        Numbers.Add(1);
-        Numbers.Add(2);
 
-        displayLeft = Random.Range(0, 2);
-        RemoveFromNumberList(displayLeft);
-        displayMiddle = 
+        displayLeft = displayMiddle = displayRight = answer = Random.Range(0, 2);
+        while (displayMiddle == displayLeft)
+            displayMiddle = Random.Range(0, 2);
+        while (displayRight == displayLeft || displayRight == displayMiddle)
+            displayRight = Random.Range(0, 2);
         leftButton.transform.GetChild(0).GetComponent<Text>().text = LeftTextList[displayLeft];
         middleButton.transform.GetChild(0).GetComponent<Text>().text = MiddleTextList[displayMiddle];
         rightButton.transform.GetChild(0).GetComponent<Text>().text = RightTextList[displayRight];
     }
 
-    void RemoveFromNumberList(int number)
-    {
-        for(int a = 0; a < Numbers.Count; a++)
-        {
-            if (number == Numbers[a])
-            {
-                Numbers.RemoveAt(a);
-                break;
-            }
-        }
-    }
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void ClickLeftButton()
+    {
+        if (displayLeft == answer)
+            Debug.Log("true");
+        else
+            Debug.Log("false");
+    }
+    public void ClickMiddleButton()
+    {
+        if (displayMiddle == answer)
+            Debug.Log("true");
+        else
+            Debug.Log("false");
+    }
+    public void ClickRightButton()
+    {
+        if (displayRight == answer)
+            Debug.Log("true");
+        else
+            Debug.Log("false");
     }
 }
