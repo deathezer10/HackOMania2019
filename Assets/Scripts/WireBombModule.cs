@@ -26,6 +26,9 @@ public class WireBombModule : MonoBehaviour
 
     Image targetWire;
 
+    bool m_pair1;
+    bool m_pair2;
+    bool m_pair3;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,25 +47,25 @@ public class WireBombModule : MonoBehaviour
 
         WireText.Add(new List<string>());
         WireText[0].Add("Barang");
-        WireText[0].Add("Encik");
+        //WireText[0].Add("Encik");
         WireText.Add(new List<string>());
         WireText[1].Add("Hosei");
-        WireText[1].Add("Kopi");
+        //WireText[1].Add("Kopi");
         WireText.Add(new List<string>());
         WireText[2].Add("Sabo");
-        WireText[2].Add("Shiok");
+        //WireText[2].Add("Shiok");
         WireText.Add(new List<string>());
         WireText[3].Add("Zai");
-        WireText[3].Add("Jialat");
+        //WireText[3].Add("Jialat");
         WireText.Add(new List<string>());
         WireText[4].Add("Chim");
-        WireText[4].Add("Macam");
+        //WireText[4].Add("Macam");
         WireText.Add(new List<string>());
         WireText[5].Add("Mata");
-        WireText[5].Add("Taupok");
+        //WireText[5].Add("Taupok");
 
         for(int a = 0; a < WireText.Count; a++)
-            WireTextChoice.Add(Random.Range(0, 1));
+            WireTextChoice.Add(0);
 
         topLeftImage.text = WireText[0][WireTextChoice[0]];
         topMiddleImage.text = WireText[1][WireTextChoice[1]];
@@ -70,6 +73,10 @@ public class WireBombModule : MonoBehaviour
         bottomLeftImage.text = WireText[3][WireTextChoice[3]];
         bottomMiddleImage.text = WireText[4][WireTextChoice[4]];
         bottomRightImage.text = WireText[5][WireTextChoice[5]];
+
+        m_pair1 = false;
+        m_pair2 = false;
+        m_pair3 = false;
     }
 
     // Update is called once per frame
@@ -80,7 +87,35 @@ public class WireBombModule : MonoBehaviour
 
     void CheckWireAnswer()
     {
-        //if(WireTextChoice[0] == 0)//Barang
+        if(WireCheckList[0])
+        {
+            if (!WireCheckList[3])
+            {
+
+            }
+            else
+                m_pair1 = true;
+        }
+
+        if(WireCheckList[1])
+        {
+            if(!WireCheckList[4])
+            {
+
+            }
+            else
+                m_pair2 = true;
+        }
+
+        if(WireCheckList[2])
+        {
+            if(!WireCheckList[4])
+            {
+
+            }
+            else
+                m_pair3 = true;
+        }
 
     }
 

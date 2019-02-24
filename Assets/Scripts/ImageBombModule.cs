@@ -10,6 +10,11 @@ public class ImageBombModule : MonoBehaviour
     public Button middleButton;
     public Button rightButton;
 
+    public Sprite Rojak;
+    public Sprite Laksa;
+    public Sprite MBS;
+    public Image actualImage;
+
     List<string> LeftTextList = new List<string>();//Abuden, Alamak, Bo Jio
     List<string> MiddleTextList = new List<string>();//Bodoh, Encik, Chim
     List<string> RightTextList = new List<string>();//Chope, Liao, Rabak
@@ -19,6 +24,7 @@ public class ImageBombModule : MonoBehaviour
     int displayRight;
     int answer;//decides image number
 
+    List<Sprite> ImageList = new List<Sprite>();
     public Sprite correct;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,10 @@ public class ImageBombModule : MonoBehaviour
         RightTextList.Add("Chope");
         RightTextList.Add("Liao");
         RightTextList.Add("Rabak");
+
+        ImageList.Add(Rojak);
+        ImageList.Add(Laksa);
+        ImageList.Add(MBS);
 
         InitDisplays();
 
@@ -51,6 +61,7 @@ public class ImageBombModule : MonoBehaviour
         List<int> Numbers = new List<int>() { 0, 1, 2 };
         displayLeft = Random.Range(0, Numbers.Count);
         answer = Random.Range(0, Numbers.Count);
+        actualImage.sprite = ImageList[answer];
         Numbers.Remove(displayLeft);
         int rand = Random.Range(0, Numbers.Count);
         displayMiddle = Numbers[rand];

@@ -584,6 +584,11 @@ MonoBehaviour:
   leftButton: {fileID: 9220038815512055905}
   middleButton: {fileID: 9220038813840894984}
   rightButton: {fileID: 9220038815004976991}
+  Rojak: {fileID: 21300000, guid: d7b8479625f8a8341a42ef2a8bbe1f09, type: 3}
+  Laksa: {fileID: 21300000, guid: 91cde4b508ddfff42b1d2634e728664b, type: 3}
+  MBS: {fileID: 21300000, guid: 8b477304950b574468424cfc95dd11c8, type: 3}
+  actualImage: {fileID: 9220038814878536149}
+  correct: {fileID: 21300002, guid: d780093591b85a246bd9208214c64420, type: 3}
 --- !u!1 &9220038815512055907
 GameObject:
   m_ObjectHideFlags: 0
