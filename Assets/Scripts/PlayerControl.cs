@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     public Image First_Box;
     public Image Second_Box;
 
+    bool m_GameOver = false;
     int m_mistakes;
     int completed;
     // Start is called before the first frame update
@@ -24,6 +25,9 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m_GameOver)
+            return;
+
         if (!First_Box.enabled && m_mistakes >= 1)
             First_Box.enabled = true;
         else if (!Second_Box.enabled && m_mistakes >= 2)
@@ -31,12 +35,15 @@ public class PlayerControl : MonoBehaviour
         else if(m_mistakes >= 3)
         {
             //die here
+            FindObjectOfType<PhotonGameplay>().LoseGame();
+            m_GameOver = true;
         }
 
         if(completed >= 4)
         {
             //call victory here
-            Debug.Log("ALL COMPLETED");
+            FindObjectOfType<PhotonGameplay>().WinGame();
+            m_GameOver = true;
         }
 
     }
