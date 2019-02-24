@@ -227,14 +227,15 @@ public class WavUtility
         // Save file to persistant storage location
         if (saveAsFile)
         {
-            filepath = string.Format("{0}/{1}/{2}.{3}", Application.persistentDataPath, dirname, DateTime.UtcNow.ToString("yyMMdd-HHmmss-fff"), "wav");
+            filepath = string.Format("{0}/{1}/{2}.{3}", Application.dataPath, dirname, DateTime.UtcNow.ToString("yyMMdd-HHmmss-fff"), "wav");
             Directory.CreateDirectory(Path.GetDirectoryName(filepath));
             File.WriteAllBytes(filepath, bytes);
-            //Debug.Log ("Auto-saved .wav file: " + filepath);
+            Debug.Log ("Auto-saved .wav file: " + filepath);
         }
         else
         {
             filepath = null;
+            Debug.Log("File not saved");
         }
 
         stream.Dispose();
