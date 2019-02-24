@@ -93,6 +93,7 @@ public class Spin : MonoBehaviour
         {
             Debug.Log("Correct");
             moduleBackground.sprite = CorrectImage;
+            player.AddCompleted();
         }
         else if(moduleBackground.sprite != CorrectImage)
         {

@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     public Image Second_Box;
 
     int m_mistakes;
+    int completed;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +28,26 @@ public class PlayerControl : MonoBehaviour
             First_Box.enabled = true;
         else if (!Second_Box.enabled && m_mistakes >= 2)
             Second_Box.enabled = true;
+        else if(m_mistakes >= 3)
+        {
+            //die here
+        }
+
+        if(completed >= 4)
+        {
+            //call victory here
+            Debug.Log("ALL COMPLETED");
+        }
+
     }
 
     public void AddMistake()
     {
         m_mistakes++;
+    }
+
+    public void AddCompleted()
+    {
+        completed++;
     }
 }

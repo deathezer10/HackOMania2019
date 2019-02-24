@@ -129,6 +129,7 @@ public class Numbers : MonoBehaviour
         {
             Debug.Log("Answer is correct");
             moduleBackground.sprite = CorrectImage;
+            player.AddCompleted();
         }
         else if(moduleBackground.sprite != CorrectImage)
         {

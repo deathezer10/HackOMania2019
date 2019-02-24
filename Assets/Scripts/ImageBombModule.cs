@@ -73,21 +73,30 @@ public class ImageBombModule : MonoBehaviour
     public void ClickLeftButton()
     {
         if (displayLeft == answer)
+        {
             this.GetComponent<Image>().sprite = correct;
+            player.AddCompleted();
+        }
         else if (this.GetComponent<Image>().sprite != correct)
             player.AddMistake();
     }
     public void ClickMiddleButton()
     {
         if (displayMiddle == answer)
+        {
             this.GetComponent<Image>().sprite = correct;
+            player.AddCompleted();
+        }
         else if (this.GetComponent<Image>().sprite != correct)
             player.AddMistake();
     }
     public void ClickRightButton()
     {
         if (displayRight == answer)
+        {
             this.GetComponent<Image>().sprite = correct;
+            player.AddCompleted();
+        }
         else if(this.GetComponent<Image>().sprite != correct)
             player.AddMistake();
     }
