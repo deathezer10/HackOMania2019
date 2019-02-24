@@ -125,7 +125,7 @@ public class Numbers : MonoBehaviour
 
     public void ConfirmAnswer()
     {
-        if (playerLeftAnswer == leftAnswer && playerMiddleAnswer == middleAnswer && playerRightAnswer == rightAnswer)
+        if (playerLeftAnswer == leftAnswer && playerMiddleAnswer == middleAnswer && playerRightAnswer == rightAnswer && moduleBackground.sprite != CorrectImage)
         {
             Debug.Log("Answer is correct");
             moduleBackground.sprite = CorrectImage;

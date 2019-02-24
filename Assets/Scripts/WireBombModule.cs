@@ -107,7 +107,7 @@ public class WireBombModule : MonoBehaviour
             if(WireCheckList[4])
                 m_pair3 = true;
         }
-        if (m_pair1 && m_pair2 && m_pair3)
+        if (m_pair1 && m_pair2 && m_pair3 && this.GetComponent<Image>().sprite != Correct)
         {
             this.GetComponent<Image>().sprite = Correct;
             player.AddCompleted();

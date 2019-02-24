@@ -89,7 +89,8 @@ public class Spin : MonoBehaviour
         if (SpinObject[0].transform.eulerAngles.z == topLeftRotateAngle &&
             SpinObject[1].transform.eulerAngles.z == topRightRotateAngle &&
             SpinObject[2].transform.eulerAngles.z == bottomLeftRotateAngle &&
-            SpinObject[3].transform.eulerAngles.z == bottomRightRotateAngle)
+            SpinObject[3].transform.eulerAngles.z == bottomRightRotateAngle &&
+            moduleBackground.sprite != CorrectImage)
         {
             Debug.Log("Correct");
             moduleBackground.sprite = CorrectImage;

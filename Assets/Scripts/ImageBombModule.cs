@@ -72,7 +72,7 @@ public class ImageBombModule : MonoBehaviour
 
     public void ClickLeftButton()
     {
-        if (displayLeft == answer)
+        if (displayLeft == answer && this.GetComponent<Image>().sprite != correct)
         {
             this.GetComponent<Image>().sprite = correct;
             player.AddCompleted();
@@ -82,7 +82,7 @@ public class ImageBombModule : MonoBehaviour
     }
     public void ClickMiddleButton()
     {
-        if (displayMiddle == answer)
+        if (displayMiddle == answer && this.GetComponent<Image>().sprite != correct)
         {
             this.GetComponent<Image>().sprite = correct;
             player.AddCompleted();
@@ -92,7 +92,7 @@ public class ImageBombModule : MonoBehaviour
     }
     public void ClickRightButton()
     {
-        if (displayRight == answer)
+        if (displayRight == answer && this.GetComponent<Image>().sprite != correct)
         {
             this.GetComponent<Image>().sprite = correct;
             player.AddCompleted();
