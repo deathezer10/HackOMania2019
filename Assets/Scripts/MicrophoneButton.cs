@@ -38,7 +38,14 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         var bytes = WavUtility.FromAudioClip(clip);
 
+        //send clip to api
+        GameObject temp = GameObject.Find("DataUpload");
+        temp.GetComponent<DataUpload>().uploadVideo(bytes);
+
+
         var role = FindObjectOfType<PhotonGameplay>().player_Role;
+        string path = Application.dataPath;
+        WavUtility.FromAudioClip(clip,out path, true , "recordings");
 
         PhotonNetwork.RaiseEvent(((role == PhotonGameplay.PlayerRole.Support) ? (byte)EventCodes.AudioSupportToDiffuse : (byte)EventCodes.AudioDiffuseToSupport),
         bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendReliable);
