@@ -9,5 +9,7 @@ enum EventCodes
     StartGame = 2,
     AudioSupportToDiffuse,
     AudioDiffuseToSupport,
-    AudioDataSent
+    AudioDataSent,
+    WinGame,
+    LoseGame
 };

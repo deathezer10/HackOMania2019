@@ -22,7 +22,8 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     public GameObject btnLoading;
     public GameObject walkieTalkieContent;
     public GameObject audioPanelPrefab;
-
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
     public bool skipInitialConnection = false;
     public PlayerRole skipRoleToUse = PlayerRole.Support;
@@ -78,6 +79,18 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     {
         if (readyText)
             readyText.text = "Waiting for other players...";
+    }
+
+    public void WinGame()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((byte)EventCodes.WinGame, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    public void LoseGame()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((byte)EventCodes.LoseGame, null, raiseEventOptions, SendOptions.SendReliable);
     }
 
     void ShuffleRole()
@@ -154,6 +167,12 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
             case EventCodes.AudioDataSent:
                 btnLoading.SetActive(false);
                 btnLoading.transform.parent.GetComponent<MicrophoneButton>().ResetSprite();
+                break;
+            case EventCodes.WinGame:
+                winScreen.SetActive(true);
+                break;
+            case EventCodes.LoseGame:
+                loseScreen.SetActive(true);
                 break;
 
         }

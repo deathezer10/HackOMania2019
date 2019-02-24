@@ -41,7 +41,7 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         var role = FindObjectOfType<PhotonGameplay>().player_Role;
 
         PhotonNetwork.RaiseEvent(((role == PhotonGameplay.PlayerRole.Support) ? (byte)EventCodes.AudioSupportToDiffuse : (byte)EventCodes.AudioDiffuseToSupport),
-        bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendUnreliable);
+        bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendReliable);
     }
 
     void Start()
