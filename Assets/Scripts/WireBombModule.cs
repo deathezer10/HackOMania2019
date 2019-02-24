@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class WireBombModule : MonoBehaviour
 {
+    public Sprite Correct;
     List<Image> WireImageList = new List<Image>();
     public Image topLeftWire;
     public Image topMiddleWire;
@@ -77,6 +78,7 @@ public class WireBombModule : MonoBehaviour
         m_pair1 = false;
         m_pair2 = false;
         m_pair3 = false;
+
     }
 
     // Update is called once per frame
@@ -85,38 +87,27 @@ public class WireBombModule : MonoBehaviour
 
     }
 
-    void CheckWireAnswer()
+    public void CheckWireAnswer()
     {
         if(WireCheckList[0])
         {
-            if (!WireCheckList[3])
-            {
-
-            }
-            else
+            if (WireCheckList[3])
                 m_pair1 = true;
         }
 
         if(WireCheckList[1])
         {
-            if(!WireCheckList[4])
-            {
-
-            }
-            else
+            if(WireCheckList[4])
                 m_pair2 = true;
         }
 
         if(WireCheckList[2])
         {
-            if(!WireCheckList[4])
-            {
-
-            }
-            else
+            if(WireCheckList[4])
                 m_pair3 = true;
         }
-
+        if(m_pair1 && m_pair2 && m_pair3)
+            this.GetComponent<Image>().sprite = Correct;
     }
 
     bool CheckIfPresentInImageList(Vector3 pos)

@@ -9,10 +9,12 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     WireBombModule m_BombModule;
     GameObject m_Line;
     bool m_validWire;
+    bool m_doNotDraw;
+    int m_currWire;
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (m_Line != null)
+        if (m_Line != null && !m_doNotDraw)
         {
             float distance = ((Vector3)eventData.position - transform.position).magnitude;
             Vector3 currentScale = m_Line.transform.localScale;
@@ -27,10 +29,18 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        m_doNotDraw = false;
         for(int a = 0; a < m_BombModule.GetImageList().Count; a++)
         {
-            if (transform.position == m_BombModule.GetImageList()[a].transform.position && m_BombModule.GetCheckImageList()[a])
-                return;
+            if (transform.position == m_BombModule.GetImageList()[a].transform.position)
+            {
+                m_currWire = a;
+                if (m_BombModule.GetCheckImageList()[a])
+                {
+                    m_doNotDraw = true;
+                    return;
+                }
+            }
         }
         m_Line = Instantiate(m_LinePrefab, transform);
         m_Line.transform.localPosition = Vector2.zero;
@@ -48,10 +58,15 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                     float distance = ((Vector3)eventData.position - m_BombModule.GetImageList()[a].transform.position).magnitude;
                     if (distance < 10.0f)
                     {//might use a number instead of localscale if wrong
-                        m_BombModule.GetCheckImageList()[a] = true;
-                        Debug.Log("Connected");
-                        m_validWire = true;
-                        break;
+                        if (m_currWire == 0 && a == 3 || m_currWire == 1 && a == 4 || m_currWire == 2 && a == 5 || m_currWire == 3 && a == 0 || m_currWire == 4 && a == 1 || m_currWire == 5 && a == 2)
+                        {
+                            m_BombModule.GetCheckImageList()[a] = true;
+                            m_BombModule.GetCheckImageList()[m_currWire] = true;
+                            Debug.Log("Connected");
+                            m_validWire = true;
+                            m_BombModule.CheckWireAnswer();
+                            break;
+                        }
                     }
                 }
             }
@@ -77,6 +92,7 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private void Start()
     {
         m_validWire = false;
+        m_doNotDraw = false;
         m_BombModule = FindObjectOfType<WireBombModule>();
     }
 
