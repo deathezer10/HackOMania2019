@@ -31,6 +31,14 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         float[] samples = new float[m_RecordedAudio.samples];
         m_RecordedAudio.GetData(samples, 0);
         float[] clipSamples = new float[micDuration];
+
+        if (clipSamples.Length == 0)
+        {
+            ResetSprite();
+            transform.GetChild(0).gameObject.SetActive(false);
+            return;
+        }
+
         System.Array.Copy(samples, clipSamples, clipSamples.Length - 1);
         var clip = AudioClip.Create("playRecordClip", clipSamples.Length, 1, m_MaxMicrophoneFrequency, false);
         clip.SetData(clipSamples, 0);
