@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Spin : MonoBehaviour
 {
+    public Image moduleBackground;
+    public Sprite CorrectImage;
 
     [SerializeField]
     private Button[] SpinObject;
@@ -89,13 +91,14 @@ public class Spin : MonoBehaviour
             SpinObject[3].transform.eulerAngles.z == bottomRightRotateAngle)
         {
             Debug.Log("Correct");
+            moduleBackground.sprite = CorrectImage;
         }
         else
         {
-            Debug.Log(topLeftRotateAngle);
-            Debug.Log(topRightRotateAngle);
-            Debug.Log(bottomLeftRotateAngle);
-            Debug.Log(bottomRightRotateAngle);
+            //Debug.Log(topLeftRotateAngle);
+            //Debug.Log(topRightRotateAngle);
+            //Debug.Log(bottomLeftRotateAngle);
+            //Debug.Log(bottomRightRotateAngle);
         }
     }
 }

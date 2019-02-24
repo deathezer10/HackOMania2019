@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Numbers : MonoBehaviour
 {
+    public Image moduleBackground;
+    public Sprite CorrectImage;
 
     [SerializeField]
     private Image[] images;
@@ -125,13 +127,14 @@ public class Numbers : MonoBehaviour
         if (playerLeftAnswer == leftAnswer && playerMiddleAnswer == middleAnswer && playerRightAnswer == rightAnswer)
         {
             Debug.Log("Answer is correct");
+            moduleBackground.sprite = CorrectImage;
         }
         else
         {
             Debug.Log("Answer is wrong");
-            Debug.Log(leftAnswer);
-            Debug.Log(middleAnswer);
-            Debug.Log(rightAnswer);
+            //Debug.Log(leftAnswer);
+            //Debug.Log(middleAnswer);
+            //Debug.Log(rightAnswer);
         }
     }
 }
