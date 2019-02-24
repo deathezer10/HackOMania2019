@@ -20,18 +20,17 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             float distance = ((Vector3)eventData.position - transform.position).magnitude;
             Vector3 currentScale = m_Line.transform.localScale;
             Vector3 direction = (Vector3)eventData.position - m_Line.transform.position;
-            float angle = Vector3.Angle(direction, transform.forward);
+            m_Line.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
 
-            currentScale.x = distance;
+            currentScale.x = distance / 10;
             m_Line.transform.localScale = currentScale;
-            //m_Line.transform.Rotate(0, 0, angle);
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         m_doNotDraw = false;
-        for(int a = 0; a < m_BombModule.GetImageList().Count; a++)
+        for (int a = 0; a < m_BombModule.GetImageList().Count; a++)
         {
             if (transform.position == m_BombModule.GetImageList()[a].transform.position)
             {
@@ -68,7 +67,7 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                             m_BombModule.CheckWireAnswer();
                             break;
                         }
-                        else if(!m_BombModule.CheckImageCorrect())
+                        else if (!m_BombModule.CheckImageCorrect())
                             player.AddMistake();
                     }
                 }
