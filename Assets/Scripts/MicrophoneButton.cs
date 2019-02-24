@@ -47,8 +47,7 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         var bytes = WavUtility.FromAudioClip(clip);
 
         //send clip to api
-        GameObject temp = GameObject.Find("DataUpload");
-        temp.GetComponent<DataUpload>().uploadVideo(bytes);
+        FindObjectOfType<DataUpload>().uploadVideo(bytes);
 
 
         var role = FindObjectOfType<PhotonGameplay>().player_Role;
