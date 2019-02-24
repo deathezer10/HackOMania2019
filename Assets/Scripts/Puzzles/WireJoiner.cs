@@ -19,8 +19,8 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         {
             float distance = ((Vector3)eventData.position - transform.position).magnitude;
             Vector3 currentScale = m_Line.transform.localScale;
-            //Vector3 direction = (Vector3)eventData.position - m_Line.transform.position;
-            //float angle = Vector3.Angle(direction, transform.forward);
+            Vector3 direction = (Vector3)eventData.position - m_Line.transform.position;
+            float angle = Vector3.Angle(direction, transform.forward);
 
             currentScale.x = distance;
             m_Line.transform.localScale = currentScale;
