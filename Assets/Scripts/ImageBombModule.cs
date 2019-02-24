@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ImageBombModule : MonoBehaviour
 {
+    public PlayerControl player;
     public Button leftButton;
     public Button middleButton;
     public Button rightButton;
@@ -73,21 +74,21 @@ public class ImageBombModule : MonoBehaviour
     {
         if (displayLeft == answer)
             this.GetComponent<Image>().sprite = correct;
-        else
-            Debug.Log("false");
+        else if (this.GetComponent<Image>().sprite != correct)
+            player.AddMistake();
     }
     public void ClickMiddleButton()
     {
         if (displayMiddle == answer)
             this.GetComponent<Image>().sprite = correct;
-        else
-            Debug.Log("false");
+        else if (this.GetComponent<Image>().sprite != correct)
+            player.AddMistake();
     }
     public void ClickRightButton()
     {
         if (displayRight == answer)
             this.GetComponent<Image>().sprite = correct;
-        else
-            Debug.Log("false");
+        else if(this.GetComponent<Image>().sprite != correct)
+            player.AddMistake();
     }
 }

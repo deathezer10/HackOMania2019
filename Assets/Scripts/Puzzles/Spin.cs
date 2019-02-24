@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Spin : MonoBehaviour
 {
+    public PlayerControl player;
     public Image moduleBackground;
     public Sprite CorrectImage;
 
@@ -93,12 +94,9 @@ public class Spin : MonoBehaviour
             Debug.Log("Correct");
             moduleBackground.sprite = CorrectImage;
         }
-        else
+        else if(moduleBackground.sprite != CorrectImage)
         {
-            //Debug.Log(topLeftRotateAngle);
-            //Debug.Log(topRightRotateAngle);
-            //Debug.Log(bottomLeftRotateAngle);
-            //Debug.Log(bottomRightRotateAngle);
+            player.AddMistake();
         }
     }
 }

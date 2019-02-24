@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public PlayerControl player;
     public GameObject m_LinePrefab;
     WireBombModule m_BombModule;
     GameObject m_Line;
@@ -48,7 +49,7 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (m_Line != null)
+        if (m_Line != null && !m_doNotDraw)
         {
             float distanceCheck = ((Vector3)eventData.position - transform.position).magnitude;
             if (distanceCheck > 10.0f)
@@ -67,6 +68,8 @@ public class WireJoiner : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                             m_BombModule.CheckWireAnswer();
                             break;
                         }
+                        else if(!m_BombModule.CheckImageCorrect())
+                            player.AddMistake();
                     }
                 }
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class WireBombModule : MonoBehaviour
-{
+{ 
     public Sprite Correct;
     List<Image> WireImageList = new List<Image>();
     public Image topLeftWire;
@@ -127,5 +127,13 @@ public class WireBombModule : MonoBehaviour
     public List<bool> GetCheckImageList()
     {
         return WireCheckList;
+    }
+
+    public bool CheckImageCorrect()
+    {
+        if (this.GetComponent<Image>().sprite == Correct)
+            return true;
+        else
+            return false;
     }
 }

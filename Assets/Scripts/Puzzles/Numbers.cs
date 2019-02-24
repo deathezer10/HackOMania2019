@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Numbers : MonoBehaviour
 {
+    public PlayerControl player;
     public Image moduleBackground;
     public Sprite CorrectImage;
 
@@ -129,12 +130,10 @@ public class Numbers : MonoBehaviour
             Debug.Log("Answer is correct");
             moduleBackground.sprite = CorrectImage;
         }
-        else
+        else if(moduleBackground.sprite != CorrectImage)
         {
             Debug.Log("Answer is wrong");
-            //Debug.Log(leftAnswer);
-            //Debug.Log(middleAnswer);
-            //Debug.Log(rightAnswer);
+            player.AddMistake();
         }
     }
 }

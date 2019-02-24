@@ -5,33 +5,28 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
-    //public Sprite Cross;
-    //public Image First_Box;
-    //public Image Second_Box;
+    public Sprite Cross;
+    public Image First_Box;
+    public Image Second_Box;
 
     int m_mistakes;
     // Start is called before the first frame update
     void Start()
     {
-        //m_mistakes = 0;
-        //First_Box.sprite = Cross;
-        //Second_Box.sprite = Cross;
-        //First_Box.enabled = false;
-        //Second_Box.enabled = false;
+        m_mistakes = 0;
+        First_Box.sprite = Cross;
+        Second_Box.sprite = Cross;
+        First_Box.enabled = false;
+        Second_Box.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(!First_Box.enabled && m_mistakes >= 1)
-        //{
-        //    First_Box.enabled = true;
-        //}
-        //else if(!Second_Box.enabled && m_mistakes >= 2)
-        //{
-        //    Second_Box.enabled = true;
-        //    //explode
-        //}
+        if (!First_Box.enabled && m_mistakes >= 1)
+            First_Box.enabled = true;
+        else if (!Second_Box.enabled && m_mistakes >= 2)
+            Second_Box.enabled = true;
     }
 
     public void AddMistake()
