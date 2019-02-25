@@ -16,14 +16,16 @@ public class MatchmakingText : MonoBehaviour
 
     private IEnumerator loadingText(float waitTime)
     {
-        matchmakingtext.text += ".";
-        yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text += ".";
-        yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text += ".";
-        yield return new WaitForSeconds(waitTime);
-        matchmakingtext.text = matchmakingtext.text.Remove(matchmakingtext.text.Length - 3);
-        yield return new WaitForSeconds(waitTime);
-        StartCoroutine(loadingText(swapTime));
+        while (true)
+        {
+            matchmakingtext.text += ".";
+            yield return new WaitForSeconds(waitTime);
+            matchmakingtext.text += ".";
+            yield return new WaitForSeconds(waitTime);
+            matchmakingtext.text += ".";
+            yield return new WaitForSeconds(waitTime);
+            matchmakingtext.text = matchmakingtext.text.Remove(matchmakingtext.text.Length - 3);
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 }

@@ -15,6 +15,8 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     private int m_MaxMicrophoneFrequency;
 
+    public List<KeyValuePair<AudioClip, byte[]>> m_VoiceList = new List<KeyValuePair<AudioClip, byte[]>>();
+
     public void OnPointerDown(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = m_OnPressedSprite;
@@ -45,15 +47,9 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         // End clip creation
 
         var bytes = WavUtility.FromAudioClip(clip);
-
-        //send clip to api
-        FindObjectOfType<DataUpload>().uploadVideo(bytes);
-
+        m_VoiceList.Add(new KeyValuePair<AudioClip, byte[]>(clip, bytes)); // Add voice data to collection for later use
 
         var role = FindObjectOfType<PhotonGameplay>().player_Role;
-        string path = Application.dataPath;
-        WavUtility.FromAudioClip(clip,out path, true , "recordings");
-
         PhotonNetwork.RaiseEvent(((role == PhotonGameplay.PlayerRole.Support) ? (byte)EventCodes.AudioSupportToDiffuse : (byte)EventCodes.AudioDiffuseToSupport),
         bytes, Photon.Realtime.RaiseEventOptions.Default, SendOptions.SendReliable);
     }
@@ -62,7 +58,9 @@ public class MicrophoneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         m_DefaultSprite = GetComponent<Image>().sprite;
         Microphone.GetDeviceCaps("", out var minFreq, out m_MaxMicrophoneFrequency);
-        m_MaxMicrophoneFrequency /= 2;
+
+        if (m_MaxMicrophoneFrequency > 16000)
+            m_MaxMicrophoneFrequency = 16000;
     }
 
     public void ResetSprite()

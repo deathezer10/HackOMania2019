@@ -1,3 +1,0 @@
-Login log 
-
-Time: 24/2/2019 11:19:37 AM,status: 5, message: The stream is of a different type than handled by this element., id: 0e228462-cf68-49f0-96e1-3076df77a9f1Time: 24/2/2019 11:20:43 AM,status: 0, hypotheses: [utterance: hello hello hello], id: 4461671d-b12d-42a9-9e4e-eb4ae11ed579Time: 24/2/2019 11:21:00 AM,status: 0, hypotheses: [utterance: \u5201 \u5f53 called \u826f\u65b9], id: 94c72f61-66e9-41ce-a7c8-2981218bd331

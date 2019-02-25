@@ -6,12 +6,13 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 
-public class PhotonGameplay : MonoBehaviour, IOnEventCallback
+public class PhotonGameplay : MonoBehaviour, IOnEventCallback, IInRoomCallbacks
 {
     public enum PlayerRole { None, Support, Diffuser }
     public int playerReadyCount = 0;
     private int m_AudioCount = 0;
     public Text readyText;
+    public static bool wasGameplay = false;
 
     public PlayerRole player_Role = PlayerRole.None;
     public Text roleText;
@@ -41,6 +42,8 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
+        wasGameplay = true;
+
         if (PhotonNetwork.IsConnected)
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
 
@@ -113,6 +116,9 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
             diffuserPage.SetActive(true);
         }
     }
+
+
+
     public void OnEvent(EventData photonEvent)
     {
         byte caseSwitch = photonEvent.Code;
@@ -169,14 +175,42 @@ public class PhotonGameplay : MonoBehaviour, IOnEventCallback
                 btnLoading.transform.parent.GetComponent<MicrophoneButton>().ResetSprite();
                 break;
             case EventCodes.WinGame:
-                winScreen.SetActive(true);
+                {
+                    winScreen.SetActive(true);
+                    FindObjectOfType<DataUpload>().UploadVideo();
+                    var newProperty = new ExitGames.Client.Photon.Hashtable();
+                    newProperty.Add("gameEnded", true);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(newProperty);
+                }
                 break;
             case EventCodes.LoseGame:
-                loseScreen.SetActive(true);
+                {
+                    loseScreen.SetActive(true);
+                    FindObjectOfType<DataUpload>().UploadVideo();
+                    var newProperty = new ExitGames.Client.Photon.Hashtable();
+                    newProperty.Add("gameEnded", true);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(newProperty);
+                }
                 break;
 
         }
 
     }
 
+    public void OnPlayerEnteredRoom(Player newPlayer) { }
+
+    public void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if ((bool)PhotonNetwork.CurrentRoom.CustomProperties["gameEnded"] == true)
+            return;
+
+        PhotonNetwork.LeaveRoom();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
+    }
+
+    public void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) { }
+
+    public void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps) { }
+
+    public void OnMasterClientSwitched(Player newMasterClient) { }
 }
