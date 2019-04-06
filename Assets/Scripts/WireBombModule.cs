@@ -31,7 +31,8 @@ public class WireBombModule : MonoBehaviour
     bool m_pair1;
     bool m_pair2;
     bool m_pair3;
-    // Start is called before the first frame update
+
+
     void Start()
     {
         WireImageList.Add(topLeftWire);
@@ -112,15 +113,6 @@ public class WireBombModule : MonoBehaviour
             this.GetComponent<Image>().sprite = Correct;
             player.AddCompleted();
         }
-    }
-
-    bool CheckIfPresentInImageList(Vector3 pos)
-    {
-        for(int a = 0; a < WireImageList.Count; a++)
-        {
-
-        }
-        return false;
     }
 
     public List<Image> GetImageList()

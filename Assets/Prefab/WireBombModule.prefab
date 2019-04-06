@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}
 --- !u!1 &890758010971082370
@@ -176,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}
 --- !u!1 &890758011397835687
@@ -344,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}
 --- !u!1 &890758011571193431
@@ -749,6 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}
 --- !u!1 &890758012340976083
@@ -838,6 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}
 --- !u!1 &890758012689829009
@@ -1018,6 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a96e0b24f84dbf45aa90e34079ab9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   Correct: {fileID: 21300002, guid: 38d769af0f7315041a2b7a41f0716569, type: 3}
   topLeftWire: {fileID: 890758012930773210}
   topMiddleWire: {fileID: 890758012340976094}
@@ -1118,5 +1124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42b9fee58616247af890ecc8bb86d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_LinePrefab: {fileID: 6665725209404871785, guid: 6ff67dc6a6418284aa4c339894edfbc1,
     type: 3}

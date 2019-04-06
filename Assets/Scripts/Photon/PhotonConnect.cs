@@ -9,6 +9,7 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
     public GameObject WaitingPanel;
     public GameObject StartButton;
     public Text StatusText;
+    public Text PlayersOnlineText;
 
     public void connectToPhoton()
     {
@@ -45,7 +46,7 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
         {
             StatusText.text = "Disconnected";
             PhotonGameplay.wasGameplay = false;
-        }
+        }        
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -71,6 +72,9 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         StatusText.gameObject.SetActive(false);
         StartButton.SetActive(true);
+
+        PlayersOnlineText.gameObject.SetActive(true);
+
         Debug.Log("Connected to Master");
     }
     
@@ -114,4 +118,10 @@ public class PhotonConnect : Photon.Pun.MonoBehaviourPunCallbacks
             Photon.Pun.PhotonNetwork.LoadLevel("Gameplay");
         }
     }
+
+    private void Update()
+    {
+        PlayersOnlineText.text = string.Format("PLAYERS ONLINE: <color=lime>{0}</color>", Mathf.Clamp((Photon.Pun.PhotonNetwork.CountOfPlayers - 1), 0 , 10000)); // -1 to exclude current player
+    }
+
 }
